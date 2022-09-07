@@ -1,7 +1,5 @@
 from core import AESCipher
-from hashlib import scrypt
-from Cryptodome.Random import get_random_bytes
-from Cryptodome.Cipher import AES
+import pickle
 
 import json
 
@@ -13,22 +11,25 @@ class Encryptor:
         with open(filename, 'rb') as original_file:
 
             data = original_file.read()
-            private_key = self.get_key(password)
-            encrypted_data = self.cipher.encrypt(data, private_key)
+            encrypted_data = self.cipher.encrypt(data, password)
             
-            with open(filename[:filename.rfind('.')]+'_encrypted.dat', 'w') as exporting_file:
-                encrypted_data_json = json.dumps(encrypted_data)
-                exporting_file.write(encrypted_data_json)
+            with open(filename[:filename.rfind('.')]+'_encrypted.dat', 'wb') as exporting_file:
+                exporting_file.write(pickle.dumps(encrypted_data))
 
 
-    def decrypt(self) -> bool:
-        pass
+    def decrypt(self, filename : str, password : str) -> bool:
+        with open(filename, 'rb') as original_file:
 
-    def get_key(self, password : str, salt=None) -> str:
-        if salt is None:
-            salt = self.generate_salt()
+            encrypted_data = pickle.load(original_file)
+            decrypted_data = self.cipher.decrypt(encrypted_data, password)
+            
+            with open(filename[:filename.rfind('_')]+'_decrypted.csv', 'w') as exporting_file:
+                exporting_file.write(str(decrypted_data, 'utf-8'))
 
-        return scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+    def password_strength_checker(self, password : str) -> bool:
 
-    def generate_salt(self) -> bytes:
-        return get_random_bytes(AES.block_size)
+        if len(password) < 21:
+            raise Exception('Password too small')
+
+        return True
+
