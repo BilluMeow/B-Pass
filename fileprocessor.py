@@ -30,6 +30,8 @@ class Encryptor:
     def password_strength_checker(self, password : str) -> bool:
         if len(password) < 21:
             raise Exception('Password too small')
+        elif len(password) > 40:
+            raise Exception('Password to big.')
         
         if not search("[a-z]", password):
             raise Exception('Password should contain atleast 1 small letter')
