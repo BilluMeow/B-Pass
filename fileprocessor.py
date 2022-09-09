@@ -23,8 +23,8 @@ class Encryptor:
             encrypted_data = pickle.load(original_file)
             decrypted_data = self.cipher.decrypt(encrypted_data, password)
             
-            with open(filename[:filename.rfind('_')]+'_decrypted.csv', 'w') as exporting_file:
-                exporting_file.write(str(decrypted_data, 'utf-8'))
+            with open(filename[:filename.rfind('_')]+'_decrypted.csv', 'wb') as exporting_file:
+                exporting_file.write(decrypted_data)
 
     def password_strength_checker(self, password : str) -> bool:
 
