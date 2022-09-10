@@ -1,5 +1,5 @@
 
-from fileprocessor import Encryptor
+from encryption.fileprocessor import Encryptor
 
 def main():
     password = input("Password: ")
