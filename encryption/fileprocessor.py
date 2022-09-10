@@ -1,4 +1,4 @@
-from core import AESCipher
+from encryption.core import AESCipher
 from pickle import load, dumps
 from re import search
 
