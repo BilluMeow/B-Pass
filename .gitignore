@@ -9,6 +9,10 @@ __pycache__/
 # Testing Files
 testing/
 
+# For using
+*.csv
+*.dat
+
 # Distribution / packaging
 .Python
 build/

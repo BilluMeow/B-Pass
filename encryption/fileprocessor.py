@@ -1,6 +1,7 @@
 from encryption.core import AESCipher
 from pickle import load, dumps
 from re import search
+from os import remove
 
 class Encryptor:
     def __init__(self) -> None:
@@ -15,6 +16,8 @@ class Encryptor:
             
             with open(filename[:filename.rfind('.')]+'_encrypted.dat', 'wb') as exporting_file:
                 exporting_file.write(dumps(encrypted_data))
+            
+        remove(filename)
 
 
     def decrypt(self, filename : str, password : str) -> bool:
